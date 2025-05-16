@@ -50,3 +50,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+*.bak
+*.un~
+*.*~
+*.scvd
+*.old
+*.uvoptx
+/**/build_*
+/**/*.pyc
+.sconsign.dblite
+Kconfig.tmp
