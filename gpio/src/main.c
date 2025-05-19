@@ -9,15 +9,11 @@
 
 #define KEY2 43
 #define PIN 20
-// #define GPIO_IRQn GPIO1_IRQn
-// #define hwp_gpio hwp_gpio1
-// #define RCC_MOD_GPIO RCC_MOD_GPIO1
 
 
 // 按键中断回调
-void key2_irq(void *args)
+static void key2_irq(void *args)
 {
-  // 判断中断触发的边沿
   if (rt_pin_read(KEY2) == 1)
   {
     rt_kprintf("KEY2 pressed\n"); // 打印按键按下
@@ -28,7 +24,7 @@ void key2_irq(void *args)
   }
 }
 
-void example_gpio(void)
+static void example_gpio(void)
 {
     // 存储GPIO状态
     rt_uint8_t pin_state = 0;
@@ -41,11 +37,11 @@ void example_gpio(void)
     pin_state = rt_pin_read(PIN);                     // 读取引脚状态
     rt_kprintf("PIN %d state: %d\n", PIN, pin_state); // 打印引脚状态
 
-    rt_pin_write(PIN, PIN_LOW);                       // 设置引脚低电平
-    rt_thread_mdelay(10);                             // 延时10ms
+    rt_pin_write(PIN, PIN_LOW);                       
+    rt_thread_mdelay(10);                             
     
-    pin_state = rt_pin_read(PIN);                     // 读取引脚状态
-    rt_kprintf("PIN %d state: %d\n", PIN, pin_state); // 打印引脚状态
+    pin_state = rt_pin_read(PIN);                     
+    rt_kprintf("PIN %d state: %d\n", PIN, pin_state);
     rt_kprintf("GPIO example end\n");
 
     rt_pin_mode(KEY2, PIN_MODE_INPUT);                                       // 配置为输入模式
@@ -61,7 +57,7 @@ void example_gpio(void)
 int main(void)
 {
    
-    example_gpio(); // Call the GPIO example function
+    example_gpio();
     while (1)
     {
         rt_kprintf("Waiting\n");

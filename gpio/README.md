@@ -80,7 +80,6 @@ please input the serial port num:5
 ```C
 void example_gpio(void)
 {
-    // 存储GPIO状态
     rt_uint8_t pin_state = 0;
     rt_kprintf("GPIO example\n");
     // 初始化GPIO引脚
@@ -100,7 +99,7 @@ void example_gpio(void)
 ```C
     int main(void)
     {
-        example_gpio(); // Call the GPIO example function
+        example_gpio();
         while (1)
         {
             rt_kprintf("Waiting!\n");
@@ -122,7 +121,7 @@ void example_gpio(void)
     // 按键中断回调
     void key2_irq(void *args)
     {
-    // 判断中断触发的边沿
+    
     if (rt_pin_read(KEY2) == 1)
     {
         rt_kprintf("KEY2 pressed\n"); // 打印按键按下
@@ -133,10 +132,3 @@ void example_gpio(void)
     }
     }
 ```
-## API参考
-
-## 更新记录
-|版本  |日期    |发布说明 |
-|:---  |:---    |:---    |
-|0.0.1 |5/2025 |初始版本 |
-|      |        |        |
