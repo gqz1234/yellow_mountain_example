@@ -66,8 +66,7 @@ void adc_example(void)
     rt_err_t r;
 
     /* find device */
-    s_adc_dev = rt_device_find(ADC_DEV_NAME);
-    /* set channel 0*/
+    s_adc_dev = rt_device_find(ADC_DEV_NAME); 
     read_arg.channel = BAT_CHANNEL;
     r = rt_adc_enable((rt_adc_device_t)s_adc_dev, read_arg.channel);
     if (r != RT_EOK)
@@ -75,7 +74,7 @@ void adc_example(void)
         rt_kprintf("ADC enable failed\n");
         return;
     }
-    // 这个接口会调用到sifli_get_adc_value函数,会进行默认22次平均
+    
     rt_uint32_t value = rt_adc_read((rt_adc_device_t)s_adc_dev, BAT_CHANNEL);
     if (value == RT_ERROR)
     {
@@ -92,7 +91,7 @@ void adc_example(void)
         rt_kprintf("ADC enable failed\n");
         return;
     }
-    // 这个接口会调用 sifli_adc_control 函数,只读取一次,用户可以自行对数据进行处理
+    
     value = rt_device_control((rt_device_t)s_adc_dev, RT_ADC_CMD_READ, &read_arg.channel);
     if (value == RT_ERROR)
     {
@@ -129,11 +128,3 @@ void adc_example(void)
 2. 分压电阻的精度是否达到要求
 3. ADC参考电压是否稳定和是否有过大纹波(具体参考ADC电压参考芯片手册) 
 
-
-## 参考文档
-
-## 更新记录
-|版本 |日期   |发布说明 |
-|:---|:---|:---|
-|0.0.1 |5/2025 |初始版本 |
-| | | |

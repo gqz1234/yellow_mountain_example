@@ -138,56 +138,42 @@ static void sensors_loop(rt_device_t ltr303_dev, rt_device_t mmc56x3_dev,
 {
     struct rt_sensor_data ltr303, mmc56x3, lsm6d_acce, lsm6d_gyro, lsm6d_step;
     rt_size_t res;
-    while (1)
-    {
-        res = rt_device_read(ltr303_dev, 0, &ltr303, 1);
-        if (res != 1)
-            rt_kprintf("read data failed!size is %d\n", res);
-        else
-            rt_kprintf("light: %d lux\n", ltr303.data.light);
+    
+    res = rt_device_read(ltr303_dev, 0, &ltr303, 1);
+    if (res != 1)
+        rt_kprintf("read data failed!size is %d\n", res);
+    else
+        rt_kprintf("light: %d lux\n", ltr303.data.light);
 
-        res = rt_device_read(mmc56x3_dev, 0, &mmc56x3, 1);
-        if (res != 1)
-            rt_kprintf("read data failed!size is %d\n", res);
-        else
-            rt_kprintf("mag, x: %d, y: %d, z: %d\n", mmc56x3.data.mag.x, mmc56x3.data.mag.y, mmc56x3.data.mag.z);
+    res = rt_device_read(mmc56x3_dev, 0, &mmc56x3, 1);
+    if (res != 1)
+        rt_kprintf("read data failed!size is %d\n", res);
+    else
+        rt_kprintf("mag, x: %d, y: %d, z: %d\n", mmc56x3.data.mag.x, mmc56x3.data.mag.y, mmc56x3.data.mag.z);
 
-        res = rt_device_read(lsm6d_dev, 0, &lsm6d_acce, 1);
-        if (res != 1)
-            rt_kprintf("read data failed!size is %d\n", res);
-        else
-            rt_kprintf("acce, x: %d, y: %d, z: %d\n", lsm6d_acce.data.acce.x, lsm6d_acce.data.acce.y, lsm6d_acce.data.acce.z);
+    res = rt_device_read(lsm6d_dev, 0, &lsm6d_acce, 1);
+    if (res != 1)
+        rt_kprintf("read data failed!size is %d\n", res);
+    else
+        rt_kprintf("acce, x: %d, y: %d, z: %d\n", lsm6d_acce.data.acce.x, lsm6d_acce.data.acce.y, lsm6d_acce.data.acce.z);
 
-        res = rt_device_read(lsm6d_gyro_dev, 0, &lsm6d_gyro, 1);
-        if (res != 1)
-            rt_kprintf("read data failed!size is %d\n", res);
-        else
-            rt_kprintf("gyro, x: %d, y: %d, z: %d\n", lsm6d_gyro.data.gyro.x, lsm6d_gyro.data.gyro.y, lsm6d_gyro.data.gyro.z);
+    res = rt_device_read(lsm6d_gyro_dev, 0, &lsm6d_gyro, 1);
+    if (res != 1)
+        rt_kprintf("read data failed!size is %d\n", res);
+    else
+        rt_kprintf("gyro, x: %d, y: %d, z: %d\n", lsm6d_gyro.data.gyro.x, lsm6d_gyro.data.gyro.y, lsm6d_gyro.data.gyro.z);
 
-        res = rt_device_read(lsm6d_step_dev, 0, &lsm6d_step, 1);
-        if (res != 1)
-            rt_kprintf("read data failed!size is %d\n", res);
-        else
-            rt_kprintf("lsm6d step, step: %d\n", lsm6d_step.data.step);
+    res = rt_device_read(lsm6d_step_dev, 0, &lsm6d_step, 1);
+    if (res != 1)
+        rt_kprintf("read data failed!size is %d\n", res);
+    else
+        rt_kprintf("lsm6d step, step: %d\n", lsm6d_step.data.step);
 
-        rt_thread_mdelay(100);
-        rt_kprintf("\n");
-    }
+    rt_thread_mdelay(100);
+    rt_kprintf("\n");
+    
 }
 ```
-
-
-## 异常诊断
-* 
-  
-## 参考文档
-* 
-## 更新记录
-|版本 |日期   |发布说明 |
-|:---|:---|:---|
-|0.0.1 |5/2025 |初始版本 |
-| | | |
-
 
 
       

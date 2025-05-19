@@ -15,13 +15,19 @@
 
 static rt_device_t s_adc_dev;
 static rt_adc_cmd_read_arg_t read_arg;
-void adc_example(void)
+static rt_err_t adc_init(void)
+{
+    s_adc_dev = rt_device_find(ADC_DEV_NAME);
+    if (s_adc_dev == RT_NULL) {
+        rt_kprintf("ADC device not found\n");
+        return RT_ERROR;
+    }
+    HAL_PIN_Set_Analog(PAD_PA28, 1);   
+    return RT_EOK;
+}
+static void adc_example(void)
 {
     rt_err_t r;
-
-    /* find device */
-    s_adc_dev = rt_device_find(ADC_DEV_NAME);
-    /* set channel 0*/
     read_arg.channel = BAT_CHANNEL;
     r = rt_adc_enable((rt_adc_device_t)s_adc_dev, read_arg.channel);
     if (r != RT_EOK)
@@ -29,31 +35,31 @@ void adc_example(void)
         rt_kprintf("ADC enable failed\n");
         return;
     }
-    // 这个接口会调用到sifli_get_adc_value函数,会进行默认22次平均
+
     rt_uint32_t value = rt_adc_read((rt_adc_device_t)s_adc_dev, BAT_CHANNEL);
     if (value == RT_ERROR)
     {
         rt_kprintf("ADC read failed\n");
         return;
     }
-    rt_kprintf("VBAT read value: %d\n", value);                       // 打印PA_34读取的值
-    rt_adc_disable((rt_adc_device_t)s_adc_dev, read_arg.channel);    // 禁用ADC通道
-    HAL_PIN_Set_Analog(PAD_PA28, 1);                                 // 设置PA28为模拟输入模式
-    read_arg.channel = ADC_CHANNEL;                                  // 设置ADC通道
-    r = rt_adc_enable((rt_adc_device_t)s_adc_dev, read_arg.channel); // 使能ADC通道
+    rt_kprintf("VBAT read value: %d\n", value);
+    rt_adc_disable((rt_adc_device_t)s_adc_dev, read_arg.channel); 
+                             
+    read_arg.channel = ADC_CHANNEL;                                  
+    r = rt_adc_enable((rt_adc_device_t)s_adc_dev, read_arg.channel); 
     if (r != RT_EOK)
     {
         rt_kprintf("ADC enable failed\n");
         return;
     }
-    // 这个接口会调用 sifli_adc_control 函数,只读取一次,用户可以自行对数据进行处理
+ 
     value = rt_device_control((rt_device_t)s_adc_dev, RT_ADC_CMD_READ, &read_arg.channel);
     if (value == RT_ERROR)
     {
         rt_kprintf("ADC read failed\n");
         return;
     }
-    rt_kprintf("ADC read value: %d\n", read_arg.value); // 打印ADC读取的值
+    rt_kprintf("ADC read value: %d\n", read_arg.value); 
 
     rt_kprintf("ADC example end\n");
 }
@@ -65,6 +71,8 @@ void adc_example(void)
 int main(void)
 {
     rt_kprintf("Start adc demo!\n");
+    if (adc_init() != RT_EOK)
+        return -1;
     while (1)
     {
         adc_example();
